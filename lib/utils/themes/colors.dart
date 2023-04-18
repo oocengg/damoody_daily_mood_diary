@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ThemeColor {
   ThemeColor._();
 
-  static const Color background = Color.fromRGBO(245, 246, 251, 1);
+  static const Color background = Color.fromRGBO(228, 232, 253, 1);
 
   static const Color appBar = Color.fromRGBO(249, 248, 244, 1);
 
