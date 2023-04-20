@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
-import 'package:damodi_daily_mood_diary/views/home/screen/home_screen.dart';
+import 'package:damodi_daily_mood_diary/views/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -23,14 +23,14 @@ class _SplashScreenState extends State<SplashScreen> {
     const duration = Duration(seconds: 5);
     return Timer(duration, () {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()));
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ThemeColor.appBar,
+        backgroundColor: ThemeColor.background,
         body: Center(
           child: SvgPicture.asset(
             AssetConst.appLogo,

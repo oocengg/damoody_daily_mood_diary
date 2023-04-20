@@ -19,11 +19,15 @@ TextTheme textTheme = TextTheme(
   titleSmall: GoogleFonts.poppins(
       fontSize: 13, fontWeight: FontWeight.w500, letterSpacing: 0.1),
   bodyLarge: GoogleFonts.poppins(
-      fontSize: 15, fontWeight: FontWeight.w400, letterSpacing: 0.5),
+    fontSize: 40,
+    fontWeight: FontWeight.w500,
+    color: ThemeColor.primary,
+    backgroundColor: Colors.white,
+  ),
   bodyMedium: GoogleFonts.poppins(
       fontSize: 13, fontWeight: FontWeight.w400, letterSpacing: 0.25),
   labelLarge: GoogleFonts.poppins(
-    fontSize: 20,
+    fontSize: 40,
     fontWeight: FontWeight.w500,
     color: ThemeColor.primary,
     backgroundColor: Colors.white,
