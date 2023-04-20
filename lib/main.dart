@@ -1,5 +1,6 @@
 import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
 import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
+import 'package:damodi_daily_mood_diary/views/home/screen/home_screen.dart';
 import 'package:damodi_daily_mood_diary/views/splash/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         initialRoute: Routes.splash,
         routes: {
           Routes.splash: (BuildContext context) => const SplashScreen(),
+          Routes.home: (BuildContext context) => const HomeScreen(),
         },
       ),
     );

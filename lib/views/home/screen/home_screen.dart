@@ -21,10 +21,20 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           body: SafeArea(child: provider.pages[provider.selectedIndex]),
           bottomNavigationBar: Container(
-            color: ThemeColor.white,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 9),
+                ),
+              ],
+              color: ThemeColor.white,
+            ),
             padding: const EdgeInsets.symmetric(
               horizontal: Spacing.spacing,
-              vertical: Spacing.spacing + 10,
+              vertical: Spacing.spacing + 5,
             ),
             child: GNav(
               backgroundColor: ThemeColor.white,
