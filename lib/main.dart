@@ -1,6 +1,9 @@
 import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
+import 'package:damodi_daily_mood_diary/views/dashboard/screen/dashboard_screen.dart';
 import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
 import 'package:damodi_daily_mood_diary/views/home/screen/home_screen.dart';
+import 'package:damodi_daily_mood_diary/views/meditation/screen/meditation_screen.dart';
+import 'package:damodi_daily_mood_diary/views/record/screen/record_screen.dart';
 import 'package:damodi_daily_mood_diary/views/splash/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +32,9 @@ class MyApp extends StatelessWidget {
         routes: {
           Routes.splash: (BuildContext context) => const SplashScreen(),
           Routes.home: (BuildContext context) => const HomeScreen(),
+          Routes.dashboardPage: (BuildContext context) =>
+              const DashboardScreen(),
+          Routes.recordPage: (BuildContext context) => const RecordScreen(),
         },
       ),
     );

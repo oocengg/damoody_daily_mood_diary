@@ -9,6 +9,8 @@ class ThemeColor {
 
   static const Color primary = Color.fromRGBO(0, 129, 201, 1);
 
+  static const Color ctBackground = Color.fromRGBO(247, 245, 255, 1);
+
   // Main Color
   static const Color secondary = Color.fromRGBO(91, 192, 248, 1);
   static const Color third = Color.fromRGBO(134, 229, 255, 1);
