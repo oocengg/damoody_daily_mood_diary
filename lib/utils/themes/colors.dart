@@ -22,7 +22,7 @@ class ThemeColor {
   static const Color neutral_600 = Color.fromRGBO(71, 85, 105, 1);
   static const Color neutral_500 = Color.fromRGBO(100, 116, 139, 1);
   static const Color neutral_400 = Color.fromRGBO(148, 163, 187, 1);
-  static const Color neutral_200 = Color.fromARGB(255, 227, 228, 248);
+  static const Color neutral_200 = Color.fromARGB(255, 227, 242, 248);
   static const Color white = Color.fromARGB(255, 255, 255, 255);
 
   // Alert Color
