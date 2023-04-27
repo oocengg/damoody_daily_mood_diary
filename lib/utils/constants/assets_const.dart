@@ -10,4 +10,11 @@ class AssetConst {
   static const String blushingIcon = 'assets/lotties/blushing-emoji.json';
   static const String sadIcon = 'assets/lotties/sad-emoji.json';
   static const String happyIcon = 'assets/lotties/smiley-emoji.json';
+  static const String forestImg = 'assets/images/forest.jpg';
+  static const String rainImg = 'assets/images/rain.jpg';
+  static const String waveImg = 'assets/images/wave.jpg';
+  static const String forestSq = 'assets/images/forestSq.jpg';
+  static const String rainSq = 'assets/images/rainSq.jpg';
+  static const String waveSq = 'assets/images/waveSq.jpg';
+  static const String forestMp3 = 'assets/music/forest.mp3';
 }

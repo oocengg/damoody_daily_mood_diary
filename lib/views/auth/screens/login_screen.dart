@@ -39,14 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Hello!',
                           style: GoogleFonts.poppins(
                             fontSize: 30,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         Text(
                           'Welcome To Damoody!',
                           style: GoogleFonts.poppins(
                             fontSize: 25,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         const SizedBox(
