@@ -46,6 +46,8 @@ dependencies:
   table_calendar: ^3.0.9
   image_picker: ^0.8.7+4
   audioplayers: ^4.0.1
+  firebase_core: ^2.10.0
+  cloud_firestore: ^4.5.2
 
 dev_dependencies:
   flutter_test:

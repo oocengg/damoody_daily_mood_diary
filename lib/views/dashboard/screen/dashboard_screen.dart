@@ -1,8 +1,5 @@
 import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
-import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
-import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
-import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/widgets/chart_summary_section.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/widgets/discover_section.dart';
@@ -12,7 +9,6 @@ import 'package:damodi_daily_mood_diary/views/dashboard/widgets/recent_mood_sect
 import 'package:damodi_daily_mood_diary/views/dashboard/widgets/text_summary_section.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

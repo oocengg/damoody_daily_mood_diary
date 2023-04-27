@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "670027510074",
+    "project_id": "damoody-journal",
+    "storage_bucket": "damoody-journal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670027510074:android:303f0baafa957458242003",
+        "android_client_info": {
+          "package_name": "com.fauzi.damoody_daily_mood_diary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670027510074-l4e1lhjjvlhe7i79r90aqlba622qsg7j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmzU6uTUX3cFk3g0T7nSs9dJ5XhTQ4vT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670027510074-l4e1lhjjvlhe7i79r90aqlba622qsg7j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
