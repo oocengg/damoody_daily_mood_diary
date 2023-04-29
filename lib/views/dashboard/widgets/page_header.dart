@@ -1,3 +1,4 @@
+import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
@@ -31,25 +32,36 @@ class PageHeader extends StatelessWidget {
                       ),
                 ),
               ),
-              Text(
-                name,
-                style: GoogleFonts.poppins(
-                  textStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: ThemeColor.primary,
-                        fontWeight: FontWeight.bold,
+              name != ''
+                  ? Text(
+                      name,
+                      style: GoogleFonts.poppins(
+                        textStyle:
+                            Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  color: ThemeColor.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
-                ),
-              ),
+                    )
+                  : Text(
+                      'No Name',
+                      style: GoogleFonts.poppins(
+                        textStyle:
+                            Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  color: ThemeColor.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                    ),
             ],
           ),
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(CustomRadius.defaultRadius),
-          child: Image.network(
-            image,
-            width: Spacing.spacing * 6,
-            height: Spacing.spacing * 6,
-          ),
+        CircleAvatar(
+          radius: 30,
+          backgroundImage: image != ''
+              ? NetworkImage(image)
+              : null, // Set backgroundImage ke null jika image null
+          backgroundColor: image == '' ? Colors.grey : null,
         ),
       ],
     );

@@ -31,7 +31,7 @@ class MeditationScreen extends StatelessWidget {
               bottomNavigationBar: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: Spacing.spacing,
-                  vertical: Spacing.spacing + 5,
+                  vertical: Spacing.spacing,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

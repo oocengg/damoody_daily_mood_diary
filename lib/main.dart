@@ -1,15 +1,23 @@
 import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
+import 'package:damodi_daily_mood_diary/views/auth/provider/login_provider.dart';
+import 'package:damodi_daily_mood_diary/views/auth/screens/login_screen.dart';
+import 'package:damodi_daily_mood_diary/views/dashboard/provider/dashboard_provider.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/screen/dashboard_screen.dart';
 import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
 import 'package:damodi_daily_mood_diary/views/home/screen/home_screen.dart';
 import 'package:damodi_daily_mood_diary/views/meditation/provider/meditation_provider.dart';
+import 'package:damodi_daily_mood_diary/views/profile/provider/profile_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/screen/record_screen.dart';
 import 'package:damodi_daily_mood_diary/views/splash/screen/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -26,9 +34,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => MeditationProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => LoginProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DashboardProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileProvider(),
+        ),
       ],
       child: MaterialApp(
-        title: 'Damodi - Daily Mood Journal',
+        title: 'Damoody - Daily Mood Journal',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           textTheme: GoogleFonts.poppinsTextTheme(),
@@ -40,6 +57,7 @@ class MyApp extends StatelessWidget {
           Routes.dashboardPage: (BuildContext context) =>
               const DashboardScreen(),
           Routes.recordPage: (BuildContext context) => const RecordScreen(),
+          Routes.loginPage: (BuildContext context) => const LoginScreen(),
         },
       ),
     );

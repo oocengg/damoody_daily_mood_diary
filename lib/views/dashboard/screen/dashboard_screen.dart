@@ -1,9 +1,7 @@
 import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
-import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
-import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
-import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
+import 'package:damodi_daily_mood_diary/views/dashboard/provider/dashboard_provider.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/widgets/chart_summary_section.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/widgets/discover_section.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/widgets/motivation_section.dart';
@@ -12,13 +10,24 @@ import 'package:damodi_daily_mood_diary/views/dashboard/widgets/recent_mood_sect
 import 'package:damodi_daily_mood_diary/views/dashboard/widgets/text_summary_section.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<DashboardProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: ThemeColor.background,
@@ -32,10 +41,9 @@ class DashboardScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const PageHeader(
-                  image:
-                      'https://lh3.googleusercontent.com/a/AGNmyxbDlsTvhDFqy9NXEKnvPqIf-lGPhE7yALX3MRk6lA=s96-c-rg-br100',
-                  name: 'Muh. Fauzi Ramadhan N',
+                PageHeader(
+                  image: provider.user?.photoURL ?? '',
+                  name: provider.user?.displayName ?? '',
                 ),
                 const SizedBox(height: Spacing.spacing * 3),
                 const MotivationSection(

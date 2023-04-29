@@ -1,16 +1,22 @@
 import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
+import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
+import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
+import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
+import 'package:damodi_daily_mood_diary/views/profile/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ProfileProvider>(context, listen: false);
     Widget menuItem(String text) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,42 +89,66 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
+                              onTap: () async {
+                                final homeProvider = Provider.of<HomeProvider>(
+                                    context,
+                                    listen: false);
+
+                                await provider.logoutFromGoogle();
+
+                                if (provider.state == MyState.success) {
+                                  if (context.mounted) {
+                                    Navigator.pushNamedAndRemoveUntil(context,
+                                        Routes.loginPage, (route) => false);
+                                    homeProvider.setSelectedIndex(0);
+                                  }
+                                }
                               },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                    color: ThemeColor.error_400,
-                                    borderRadius: BorderRadius.circular(
-                                        CustomRadius.defaultRadius)),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Logout',
-                                      style: GoogleFonts.poppins(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!
-                                            .copyWith(
-                                              color: ThemeColor.white,
-                                              fontWeight: FontWeight.bold,
+                              child: Consumer<ProfileProvider>(
+                                  builder: (context, provider, _) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: ThemeColor.error_400,
+                                      borderRadius: BorderRadius.circular(
+                                          CustomRadius.defaultRadius)),
+                                  child: provider.state == MyState.loading
+                                      ? const SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : Row(
+                                          children: [
+                                            Text(
+                                              'Logout',
+                                              style: GoogleFonts.poppins(
+                                                textStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!
+                                                    .copyWith(
+                                                      color: ThemeColor.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                              ),
                                             ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: Spacing.spacing,
-                                    ),
-                                    const Icon(
-                                      CustomIcon.logout,
-                                      color: ThemeColor.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                            const SizedBox(
+                                              width: Spacing.spacing,
+                                            ),
+                                            const Icon(
+                                              CustomIcon.logout,
+                                              color: ThemeColor.white,
+                                            ),
+                                          ],
+                                        ),
+                                );
+                              }),
                             ),
                           ],
                         ),
@@ -126,22 +156,14 @@ class ProfileScreen extends StatelessWidget {
                         Center(
                           child: Column(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  // color: ThemeColor.third,
-                                  borderRadius: BorderRadius.circular(
-                                    CustomRadius.defaultRadius,
-                                  ),
-                                ),
-                                child: Image.asset(
-                                  AssetConst.loginImage,
-                                  width: 150,
-                                  height: 150,
-                                ),
+                              CircleAvatar(
+                                radius: 80,
+                                backgroundImage:
+                                    NetworkImage(provider.user?.photoURL ?? ''),
                               ),
                               const SizedBox(height: Spacing.spacing),
                               Text(
-                                'Muh. Fauzi Ramadhan Nugraha',
+                                provider.user?.displayName ?? '',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                   textStyle: Theme.of(context)
@@ -162,8 +184,10 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Spacing.spacing * 3,
+                padding: const EdgeInsets.only(
+                  left: Spacing.spacing * 3,
+                  right: Spacing.spacing * 3,
+                  bottom: Spacing.spacing * 3,
                 ),
                 child: Column(
                   children: [
