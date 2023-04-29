@@ -45,3 +45,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// Make a branch for developing with fire base
+// Dengan tujuan agar versi development setelah ui berhasil belum terganggu jikalau ada beberapa development pada firebase yang kurang tepat
