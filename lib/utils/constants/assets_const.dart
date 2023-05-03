@@ -9,6 +9,7 @@ class AssetConst {
   static const String winkingIcon = 'assets/lotties/winking-emoji.json';
   static const String blushingIcon = 'assets/lotties/blushing-emoji.json';
   static const String sadIcon = 'assets/lotties/sad-emoji.json';
+  static const String neutralIcon = 'assets/lotties/neutral-emoji.json';
   static const String happyIcon = 'assets/lotties/smiley-emoji.json';
   static const String forestImg = 'assets/images/forest.jpg';
   static const String rainImg = 'assets/images/rain.jpg';
