@@ -100,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
                                   if (context.mounted) {
                                     Navigator.pushNamedAndRemoveUntil(context,
                                         Routes.loginPage, (route) => false);
-                                    homeProvider.setSelectedIndex(0);
+                                    homeProvider.setSelectedIndex(context, 0);
                                   }
                                 }
                               },

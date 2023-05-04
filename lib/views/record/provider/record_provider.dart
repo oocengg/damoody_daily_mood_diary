@@ -211,32 +211,37 @@ class RecordProvider extends ChangeNotifier {
       state = MyState.success;
       notifyListeners();
     } catch (e) {
-      print(e);
-      print(e);
-
       state = MyState.error;
       notifyListeners();
     }
   }
 
-  // Future<void> deleteMood(String id) async {
-  //   state = MyState.loading;
-  //   notifyListeners();
+  Future<void> deleteMood(MoodModel mood) async {
+    state = MyState.loading;
+    notifyListeners();
 
-  //   try {
-  //     await moodRecord.doc(id).delete();
+    print(mood.id);
 
-  //     listMood.removeWhere((mood) => mood.id == id);
+    try {
+      // Delete the mood document from Firestore
+      await moodRecord.doc(mood.id).delete();
 
-  //     await Future.delayed(const Duration(seconds: 2));
+      // Delete the image file from Storage
+      final storageRef = FirebaseStorage.instance.refFromURL(mood.imageUrl);
+      await storageRef.delete();
 
-  //     state = MyState.success;
-  //     notifyListeners();
-  //   } catch (error) {
-  //     state = MyState.error;
-  //     notifyListeners();
-  //   }
-  // }
+      // Remove the mood from the list
+      listMood.remove(mood);
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      state = MyState.success;
+      notifyListeners();
+    } catch (error) {
+      state = MyState.error;
+      notifyListeners();
+    }
+  }
 
   String? validateTitle(value) {
     if (value.isEmpty) {

@@ -146,9 +146,13 @@ class MoodBar extends StatelessWidget {
                                           ),
                                         ),
                                         onPressed: () async {
-                                          // await provider.deleteMood(id);
+                                          final moodModel =
+                                              provider.listMood[index];
+                                          await provider.deleteMood(moodModel);
+
                                           if (context.mounted) {
                                             Navigator.of(context).pop();
+                                            provider.getMoodByDate();
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               const SnackBar(

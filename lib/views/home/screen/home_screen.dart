@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    _homeProvider.setSelectedIndex(0);
+    _homeProvider.setSelectedIndex(context, 0);
     super.dispose();
   }
 
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   text: 'Profile',
                 ),
               ],
-              onTabChange: (index) => provider.setSelectedIndex(index),
+              onTabChange: (index) => provider.setSelectedIndex(context, index),
             ),
           ),
         );

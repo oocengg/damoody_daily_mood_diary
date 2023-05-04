@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
 
 class MoodModel {
-  String? id;
+  final String? id;
   final MoodState mood;
   final String moodLabel;
   final String title;
@@ -19,6 +19,7 @@ class MoodModel {
     required this.imageUrl,
     required this.userId,
     required this.createdAt,
+    this.id,
   });
 
   factory MoodModel.fromJson(Map<String, dynamic> json) {
@@ -64,6 +65,7 @@ class MoodModel {
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,
       userId: userId ?? this.userId,
+      id: id ?? this.id,
     );
   }
 
