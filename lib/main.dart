@@ -7,6 +7,7 @@ import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
 import 'package:damodi_daily_mood_diary/views/home/screen/home_screen.dart';
 import 'package:damodi_daily_mood_diary/views/meditation/provider/meditation_provider.dart';
 import 'package:damodi_daily_mood_diary/views/profile/provider/profile_provider.dart';
+import 'package:damodi_daily_mood_diary/views/record/provider/record_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/screen/record_screen.dart';
 import 'package:damodi_daily_mood_diary/views/splash/screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ProfileProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RecordProvider(),
         ),
       ],
       child: MaterialApp(

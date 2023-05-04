@@ -2,8 +2,10 @@ import 'package:damodi_daily_mood_diary/views/dashboard/screen/dashboard_screen.
 import 'package:damodi_daily_mood_diary/views/meditation/screen/meditation_screen.dart';
 import 'package:damodi_daily_mood_diary/views/notification/screen/notification_screen.dart';
 import 'package:damodi_daily_mood_diary/views/profile/screen/profile_screen.dart';
+import 'package:damodi_daily_mood_diary/views/record/provider/record_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/screen/record_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeProvider with ChangeNotifier {
   int selectedIndex = 0;
@@ -16,8 +18,9 @@ class HomeProvider with ChangeNotifier {
     const ProfileScreen(),
   ];
 
-  void setSelectedIndex(int index) {
+  void setSelectedIndex(BuildContext context, int index) {
     selectedIndex = index;
+    Provider.of<RecordProvider>(context, listen: false).getMoodByDate();
     notifyListeners();
   }
 }

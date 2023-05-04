@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/state/image_state.dart';
 import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
@@ -8,71 +9,293 @@ import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
 import 'package:damodi_daily_mood_diary/views/record/provider/record_provider.dart';
+import 'package:damodi_daily_mood_diary/views/record/widgets/mood_emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class AddDescriptionMood extends StatefulWidget {
-  const AddDescriptionMood({Key? key}) : super(key: key);
+class EditMoodScreen extends StatefulWidget {
+  final int index;
+
+  const EditMoodScreen({Key? key, required this.index}) : super(key: key);
 
   @override
-  State<AddDescriptionMood> createState() => _AddDescriptionMoodState();
+  State<EditMoodScreen> createState() => _EditMoodScreenState();
 }
 
-class _AddDescriptionMoodState extends State<AddDescriptionMood> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descController = TextEditingController();
-
+class _EditMoodScreenState extends State<EditMoodScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<RecordProvider>(context, listen: false);
+    final mood = provider.listMood[widget.index];
+    final _formKey = GlobalKey<FormState>();
+    final int index = widget.index;
+    TextEditingController titleController =
+        TextEditingController(text: mood.title);
+    TextEditingController descController =
+        TextEditingController(text: mood.description);
     return SafeArea(
-      child: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(Spacing.spacing * 3),
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: ThemeColor.background,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(CustomRadius.defaultRadius),
-                      topRight: Radius.circular(CustomRadius.defaultRadius),
-                    ),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: Spacing.spacing * 2),
-                        InkWell(
-                          onTap: () {
-                            provider.setMood(MoodState.none);
-                            provider.setMoodLabel(MoodState.none);
-                            provider.image = null;
-                            provider.selectedImage = ImageState.none;
-                            provider.state = MyState.none;
-                            provider.getMoodByDate();
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(Icons.keyboard_arrow_down),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: Spacing.spacing * 2,
+      child: Scaffold(
+        backgroundColor: ThemeColor.background,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: Spacing.spacing * 5,
+            horizontal: Spacing.spacing * 3,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  titleController.clear();
+                  descController.clear();
+                  provider.selectedImage = ImageState.none;
+                  provider.mood = MoodState.none;
+                  provider.selectedImage = ImageState.none;
+                  provider.image = null;
+                  provider.moodLabel = 'Select Your Mood';
+                  provider.getMoodByDate();
+                },
+                icon: const Icon(CustomIcon.leftOpen),
+              ),
+              Text(
+                'Edit Your Record',
+                style: GoogleFonts.poppins(
+                  textStyle:
+                      Theme.of(context).textTheme.headlineSmall!.copyWith(
+                            color: ThemeColor.primary,
+                            fontWeight: FontWeight.bold,
                           ),
-                          child: Form(
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: Spacing.spacing * 2),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: Spacing.spacing * 2,
+                        ),
+                        child: Consumer<RecordProvider>(
+                            builder: (context, provider, _) {
+                          return Form(
                             key: _formKey,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                Text(
+                                  'Pick your mood right now',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                          color: ThemeColor.neutral_900,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  ),
+                                ),
+                                const SizedBox(height: Spacing.spacing * 2),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: Spacing.spacing,
+                                  ),
+                                  child: GridView.count(
+                                    shrinkWrap: true,
+                                    crossAxisCount: 6,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    childAspectRatio: 1.0,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    children: [
+                                      // Sad Emoji
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (mood.mood == MoodState.sad &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood == MoodState.sad) {
+                                            provider.setMood(MoodState.none);
+                                            provider
+                                                .setMoodLabel(MoodState.none);
+                                          } else {
+                                            provider.setMood(MoodState.sad);
+                                            provider
+                                                .setMoodLabel(MoodState.sad);
+                                          }
+                                        },
+                                        child: MoodEmoji(
+                                          location: AssetConst.cryingIcon,
+                                          isSelected: mood.mood ==
+                                                      MoodState.sad &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood == MoodState.sad,
+                                        ),
+                                      ),
+
+                                      // Tired Emoji
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (mood.mood == MoodState.tired &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood ==
+                                                  MoodState.tired) {
+                                            provider.setMood(MoodState.none);
+                                            provider
+                                                .setMoodLabel(MoodState.none);
+                                          } else {
+                                            provider.setMood(MoodState.tired);
+                                            provider
+                                                .setMoodLabel(MoodState.tired);
+                                          }
+                                        },
+                                        child: MoodEmoji(
+                                          location: AssetConst.sadIcon,
+                                          isSelected: mood.mood ==
+                                                      MoodState.tired &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood == MoodState.tired,
+                                        ),
+                                      ),
+
+                                      // Neutral Emoji
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (mood.mood == MoodState.neutral &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood ==
+                                                  MoodState.neutral) {
+                                            provider.setMood(MoodState.none);
+                                            provider
+                                                .setMoodLabel(MoodState.none);
+                                          } else {
+                                            provider.setMood(MoodState.neutral);
+                                            provider.setMoodLabel(
+                                                MoodState.neutral);
+                                          }
+                                        },
+                                        child: MoodEmoji(
+                                          location: AssetConst.neutralIcon,
+                                          isSelected:
+                                              mood.mood == MoodState.neutral &&
+                                                      provider.mood ==
+                                                          MoodState.none ||
+                                                  provider.mood ==
+                                                      MoodState.neutral,
+                                        ),
+                                      ),
+
+                                      // Exited Emoji
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (mood.mood == MoodState.excited &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood ==
+                                                  MoodState.excited) {
+                                            provider.setMood(MoodState.none);
+                                            provider
+                                                .setMoodLabel(MoodState.none);
+                                          } else {
+                                            provider.setMood(MoodState.excited);
+                                            provider.setMoodLabel(
+                                                MoodState.excited);
+                                          }
+                                        },
+                                        child: MoodEmoji(
+                                          location: AssetConst.winkingIcon,
+                                          isSelected:
+                                              mood.mood == MoodState.excited &&
+                                                      provider.mood ==
+                                                          MoodState.none ||
+                                                  provider.mood ==
+                                                      MoodState.excited,
+                                        ),
+                                      ),
+
+                                      // Cheerful Emoji
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (mood.mood == MoodState.cheerful &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood ==
+                                                  MoodState.cheerful) {
+                                            provider.setMood(MoodState.none);
+                                            provider
+                                                .setMoodLabel(MoodState.none);
+                                          } else {
+                                            provider
+                                                .setMood(MoodState.cheerful);
+                                            provider.setMoodLabel(
+                                                MoodState.cheerful);
+                                          }
+                                        },
+                                        child: MoodEmoji(
+                                          location: AssetConst.blushingIcon,
+                                          isSelected:
+                                              mood.mood == MoodState.cheerful &&
+                                                      provider.mood ==
+                                                          MoodState.none ||
+                                                  provider.mood ==
+                                                      MoodState.cheerful,
+                                        ),
+                                      ),
+
+                                      // Happy Emoji
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (mood.mood == MoodState.happy &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood ==
+                                                  MoodState.happy) {
+                                            provider.setMood(MoodState.none);
+                                            provider
+                                                .setMoodLabel(MoodState.none);
+                                          } else {
+                                            provider.setMood(MoodState.happy);
+                                            provider
+                                                .setMoodLabel(MoodState.happy);
+                                          }
+                                        },
+                                        child: MoodEmoji(
+                                          location: AssetConst.happyIcon,
+                                          isSelected: mood.mood ==
+                                                      MoodState.happy &&
+                                                  provider.mood ==
+                                                      MoodState.none ||
+                                              provider.mood == MoodState.happy,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: Spacing.spacing),
+                                Text(
+                                  provider.moodLabel == 'Select Your Mood'
+                                      ? 'You\'re ${mood.moodLabel}'
+                                      : 'You\'re ${provider.moodLabel}',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                          color: ThemeColor.neutral_900,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  ),
+                                ),
+                                const SizedBox(height: Spacing.spacing * 2),
                                 Text(
                                   'Mood Title',
                                   style: GoogleFonts.poppins(
@@ -252,15 +475,18 @@ class _AddDescriptionMoodState extends State<AddDescriptionMood> {
                                       provider.selectedImage ==
                                           ImageState.none) {
                                     return Container(
-                                      height: 200.0,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 1.0,
-                                            color: ThemeColor.neutral_200),
-                                      ),
-                                      child:
-                                          const Center(child: Text('No Image')),
-                                    );
+                                        height: 200.0,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 1.0,
+                                              color: ThemeColor.neutral_200),
+                                        ),
+                                        child: Center(
+                                            child: Image.network(mood.imageUrl))
+                                        // const Center(
+                                        //     child: Text('No Image')
+                                        //     ),
+                                        );
                                   } else if (provider.state == MyState.none &&
                                       provider.selectedImage ==
                                           ImageState.notSelected) {
@@ -324,15 +550,17 @@ class _AddDescriptionMoodState extends State<AddDescriptionMood> {
                                                 fit: BoxFit.cover)));
                                   } else if (provider.image == null) {
                                     return Container(
-                                      height: 200.0,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 1.0,
-                                            color: ThemeColor.neutral_200),
-                                      ),
-                                      child:
-                                          const Center(child: Text('No Image')),
-                                    );
+                                        height: 200.0,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 1.0,
+                                              color: ThemeColor.neutral_200),
+                                        ),
+                                        child: Center(
+                                            child: Image.network(mood.imageUrl))
+                                        // const Center(
+                                        //     child: Text('No Image')),
+                                        );
                                   } else {
                                     return const SizedBox();
                                   }
@@ -371,27 +599,25 @@ class _AddDescriptionMoodState extends State<AddDescriptionMood> {
                                                   provider.setDesc(
                                                       descController.text);
 
-                                                  await provider.addMood();
-
-                                                  if (provider.state ==
-                                                      MyState.success) {
-                                                    if (context.mounted) {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        const SnackBar(
-                                                          content: Text(
-                                                              'Success Add Mood!'),
-                                                          backgroundColor:
-                                                              ThemeColor
-                                                                  .success_400,
-                                                        ),
-                                                      );
-                                                      titleController.clear();
-                                                      descController.clear();
-                                                      provider.getMoodByDate();
-                                                      Navigator.pop(context);
-                                                    }
+                                                  final moodModel =
+                                                      provider.listMood[index];
+                                                  await provider
+                                                      .updateMood(moodModel);
+                                                  provider.getMoodByDate();
+                                                  if (context.mounted) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      const SnackBar(
+                                                        content: Text(
+                                                            "Mood has been successfully edited."),
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                      ),
+                                                    );
+                                                    titleController.clear();
+                                                    descController.clear();
+                                                    Navigator.pop(context);
                                                   } else {
                                                     if (context.mounted) {
                                                       ScaffoldMessenger.of(
@@ -405,11 +631,9 @@ class _AddDescriptionMoodState extends State<AddDescriptionMood> {
                                                                   .error_400,
                                                         ),
                                                       );
+                                                      provider.getMoodByDate();
                                                     }
                                                   }
-                                                  // if (context.mounted) {
-                                                  //   Navigator.pop(context);
-                                                  // }
                                                 }
                                               },
                                               child: Text(
@@ -430,16 +654,16 @@ class _AddDescriptionMoodState extends State<AddDescriptionMood> {
                                 const SizedBox(height: Spacing.spacing),
                               ],
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
+                          );
+                        }),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

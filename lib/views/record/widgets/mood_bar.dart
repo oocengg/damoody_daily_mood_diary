@@ -1,23 +1,32 @@
+import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
 import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
+import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
+import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
+import 'package:damodi_daily_mood_diary/views/record/provider/record_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/screen/detail_mood_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class MoodBar extends StatelessWidget {
-  final String title, desc, tag, time, emoji;
+  final String title, desc, moodLabel, createdAt;
+  final MoodState mood;
+  final int index;
 
   const MoodBar({
     Key? key,
     required this.title,
     required this.desc,
-    required this.tag,
-    required this.time,
-    required this.emoji,
+    required this.moodLabel,
+    required this.createdAt,
+    required this.mood,
+    required this.index,
+    // required this.id,
   }) : super(key: key);
 
   @override
@@ -43,25 +52,207 @@ class MoodBar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const DetailMood()),
+                MaterialPageRoute(
+                    builder: (context) => DetailMood(
+                          index: this.index,
+                        )),
+              );
+            },
+            onLongPress: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    contentPadding: const EdgeInsets.all(Spacing.spacing * 3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(CustomRadius.defaultRadius),
+                    ),
+                    content: Consumer<RecordProvider>(
+                      builder: (context, provider, _) {
+                        if (provider.state == MyState.loading) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Column(
+                                children: [
+                                  const SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: Icon(
+                                      Icons.warning,
+                                      size: 50,
+                                      color: ThemeColor.warning_400,
+                                    ),
+                                  ),
+                                  const SizedBox(height: Spacing.spacing),
+                                  Text(
+                                    "Delete Mood",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                            color: ThemeColor.neutral_600,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: Spacing.spacing),
+                                  Text(
+                                    "Are you sure you want to delete this mood?",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.poppins(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                            color: ThemeColor.neutral_600,
+                                          ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: Spacing.spacing),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      TextButton(
+                                        child: const Text(
+                                          "Cancel",
+                                          style: TextStyle(
+                                            color: ThemeColor.primary,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text(
+                                          "Delete",
+                                          style: TextStyle(
+                                            color: ThemeColor.error_400,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          final moodModel =
+                                              provider.listMood[index];
+                                          await provider.deleteMood(moodModel);
+
+                                          if (context.mounted) {
+                                            Navigator.of(context).pop();
+                                            provider.getMoodByDate();
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    "Mood deleted successfully"),
+                                                backgroundColor: Colors.green,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  );
+                },
               );
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  height: 110,
-                  width: 110,
-                  decoration: BoxDecoration(
-                    // color: ThemeColor.third,
-                    borderRadius: BorderRadius.circular(
-                      CustomRadius.defaultRadius,
+                if (mood == MoodState.happy) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
                     ),
+                    child: LottieBuilder.asset(AssetConst.happyIcon),
                   ),
-                  child: LottieBuilder.asset(
-                    emoji,
+                ] else if (mood == MoodState.cheerful) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.blushingIcon),
                   ),
-                ),
+                ] else if (mood == MoodState.excited) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.winkingIcon),
+                  ),
+                ] else if (mood == MoodState.neutral) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.neutralIcon),
+                  ),
+                ] else if (mood == MoodState.tired) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.sadIcon),
+                  ),
+                ] else if (mood == MoodState.sad) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.cryingIcon),
+                  ),
+                ],
                 const SizedBox(
                   width: Spacing.spacing,
                 ),
@@ -81,7 +272,6 @@ class MoodBar extends StatelessWidget {
                                       color: ThemeColor.neutral_600,
                                     ),
                           ),
-                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: Spacing.spacing / 2),
@@ -98,7 +288,7 @@ class MoodBar extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            tag,
+                            moodLabel,
                             style:
                                 Theme.of(context).textTheme.bodySmall!.copyWith(
                                       color: ThemeColor.primary,
@@ -113,12 +303,12 @@ class MoodBar extends StatelessWidget {
                               Theme.of(context).textTheme.bodySmall!.copyWith(
                                     color: ThemeColor.neutral_500,
                                   ),
-                          maxLines: 3,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: Spacing.spacing / 2),
                         Text(
-                          time,
+                          createdAt,
                           style:
                               Theme.of(context).textTheme.bodySmall!.copyWith(
                                     color: ThemeColor.neutral_400,

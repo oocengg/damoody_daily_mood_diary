@@ -107,8 +107,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                     await provider.loginWithGoogle();
                                     if (provider.state == MyState.success) {
                                       if (context.mounted) {
-                                        Navigator.pushNamed(
-                                            context, Routes.home);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Success! Welcome to Damoody!'),
+                                            backgroundColor:
+                                                ThemeColor.success_400,
+                                          ),
+                                        );
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            Routes.home,
+                                            (route) => false);
                                       }
                                     }
                                   },
