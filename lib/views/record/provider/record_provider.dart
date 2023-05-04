@@ -220,8 +220,6 @@ class RecordProvider extends ChangeNotifier {
     state = MyState.loading;
     notifyListeners();
 
-    print(mood.id);
-
     try {
       // Delete the mood document from Firestore
       await moodRecord.doc(mood.id).delete();
@@ -238,6 +236,73 @@ class RecordProvider extends ChangeNotifier {
       state = MyState.success;
       notifyListeners();
     } catch (error) {
+      state = MyState.error;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateMood(MoodModel moodEdit) async {
+    state = MyState.loading;
+    notifyListeners();
+
+    if (mood == MoodState.none) {
+      mood = moodEdit.mood;
+      moodLabel = moodEdit.moodLabel;
+    }
+
+    if (image == null) {
+      imageUrl = moodEdit.imageUrl;
+    } else {
+      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+      Reference referenceRoot = FirebaseStorage.instance.ref();
+      Reference referenceDirImages = referenceRoot.child('images');
+
+      Reference referenceImageToUpload =
+          referenceDirImages.child(uniqueFileName);
+
+      await referenceImageToUpload.putFile(File(image!.path));
+      imageUrl = await referenceImageToUpload.getDownloadURL();
+
+      // Delete the image file from Storage
+      final storageRef = FirebaseStorage.instance.refFromURL(moodEdit.imageUrl);
+      await storageRef.delete();
+    }
+
+    try {
+      await moodRecord.doc(moodEdit.id).update({
+        'mood': mood.toString().split('.').last,
+        'label': moodLabel,
+        'title': title,
+        'description': description,
+        'image_url': imageUrl,
+      });
+
+      // Reset the form
+      mood = MoodState.none;
+      moodLabel = 'Select Your Mood';
+      title = null;
+      description = null;
+      imageUrl = null;
+      image = null;
+
+      await Future.delayed(const Duration(seconds: 2));
+      // getMoodByDate();
+
+      state = MyState.success;
+      notifyListeners();
+      selectedImage = ImageState.none;
+    } catch (e) {
+      // Reset the form
+      mood = MoodState.none;
+      moodLabel = 'Select Your Mood';
+      title = null;
+      description = null;
+      imageUrl = null;
+      image = null;
+
+      selectedImage = ImageState.none;
+
       state = MyState.error;
       notifyListeners();
     }
