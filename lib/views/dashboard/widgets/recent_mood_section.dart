@@ -1,23 +1,29 @@
 import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
 import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
+import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
+import 'package:damodi_daily_mood_diary/views/dashboard/screen/detail_mood_dashboard_screen.dart';
+import 'package:damodi_daily_mood_diary/views/record/screen/detail_mood_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class RecentMoodSection extends StatelessWidget {
-  final String title, desc, tag, date, emoji;
+  final MoodState mood;
+  final String title, desc, moodLabel, createdAt;
+  final int index;
 
   const RecentMoodSection({
     Key? key,
     required this.title,
     required this.desc,
-    required this.tag,
-    required this.date,
-    required this.emoji,
+    required this.moodLabel,
+    required this.createdAt,
+    required this.mood,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -41,24 +47,90 @@ class RecentMoodSection extends StatelessWidget {
         children: <Widget>[
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, Routes.recordPage);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailMoodDashboard(
+                          index: this.index,
+                        )),
+              );
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  height: 110,
-                  width: 110,
-                  decoration: BoxDecoration(
-                    // color: ThemeColor.third,
-                    borderRadius: BorderRadius.circular(
-                      CustomRadius.defaultRadius,
+                if (mood == MoodState.happy) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
                     ),
+                    child: LottieBuilder.asset(AssetConst.happyIcon),
                   ),
-                  child: LottieBuilder.asset(
-                    emoji,
+                ] else if (mood == MoodState.cheerful) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.blushingIcon),
                   ),
-                ),
+                ] else if (mood == MoodState.excited) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.winkingIcon),
+                  ),
+                ] else if (mood == MoodState.neutral) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.neutralIcon),
+                  ),
+                ] else if (mood == MoodState.tired) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.sadIcon),
+                  ),
+                ] else if (mood == MoodState.sad) ...[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      // color: ThemeColor.third,
+                      borderRadius: BorderRadius.circular(
+                        CustomRadius.defaultRadius,
+                      ),
+                    ),
+                    child: LottieBuilder.asset(AssetConst.cryingIcon),
+                  ),
+                ],
                 const SizedBox(
                   width: Spacing.spacing,
                 ),
@@ -78,7 +150,6 @@ class RecentMoodSection extends StatelessWidget {
                                       color: ThemeColor.neutral_600,
                                     ),
                           ),
-                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: Spacing.spacing / 2),
@@ -95,7 +166,7 @@ class RecentMoodSection extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            tag,
+                            moodLabel,
                             style:
                                 Theme.of(context).textTheme.bodySmall!.copyWith(
                                       color: ThemeColor.primary,
@@ -110,12 +181,12 @@ class RecentMoodSection extends StatelessWidget {
                               Theme.of(context).textTheme.bodySmall!.copyWith(
                                     color: ThemeColor.neutral_500,
                                   ),
-                          maxLines: 3,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: Spacing.spacing / 2),
                         Text(
-                          date,
+                          createdAt,
                           style:
                               Theme.of(context).textTheme.bodySmall!.copyWith(
                                     color: ThemeColor.neutral_400,

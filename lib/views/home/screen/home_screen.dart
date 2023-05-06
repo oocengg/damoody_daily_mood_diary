@@ -14,13 +14,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final HomeProvider _homeProvider = HomeProvider();
+  // final HomeProvider _homeProvider = HomeProvider();
 
-  @override
-  void dispose() {
-    _homeProvider.setSelectedIndex(context, 0);
-    super.dispose();
-  }
+  // // @override
+  // // void dispose() {
+  // //   super.dispose();
+  // //   _homeProvider.setSelectedIndex(context, 0);
+  // // }
 
   @override
   Widget build(BuildContext context) {
