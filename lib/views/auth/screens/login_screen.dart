@@ -5,6 +5,7 @@ import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/widgets/custom_text_button.dart';
 import 'package:damodi_daily_mood_diary/utils/widgets/custom_text_field.dart';
 import 'package:damodi_daily_mood_diary/views/auth/provider/login_provider.dart';
+import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -116,6 +117,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 ThemeColor.success_400,
                                           ),
                                         );
+                                        Provider.of<HomeProvider>(context,
+                                                listen: false)
+                                            .setSelectedIndex(context, 0);
                                         Navigator.pushNamedAndRemoveUntil(
                                             context,
                                             Routes.home,
