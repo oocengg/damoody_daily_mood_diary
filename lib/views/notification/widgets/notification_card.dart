@@ -25,7 +25,7 @@ class NotificationCard extends StatelessWidget {
     if (day == true) {
       return InkWell(
         onTap: () async {
-          await provider.updateMood(notif);
+          await provider.updateNotification(notif);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +98,7 @@ class NotificationCard extends StatelessWidget {
     } else {
       return InkWell(
         onTap: () async {
-          await provider.updateMood(notif);
+          await provider.updateNotification(notif);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

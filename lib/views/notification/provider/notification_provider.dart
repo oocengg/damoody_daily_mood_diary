@@ -128,10 +128,7 @@ class NotificationProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateMood(NotificationModel notifEdit) async {
-    // state = MyState.loading;
-    // notifyListeners();
-
+  Future<void> updateNotification(NotificationModel notifEdit) async {
     try {
       await notificationRecord.doc(notifEdit.id).update({
         'is_active': false,
@@ -139,6 +136,26 @@ class NotificationProvider extends ChangeNotifier {
 
       await getNotificationByWeek();
     } catch (e) {
+      state = MyState.error;
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteAllNotification() async {
+    state = MyState.loading;
+    notifyListeners();
+
+    try {
+      final collection =
+          await notificationRecord.where('user_id', isEqualTo: user!.uid).get();
+
+      for (final doc in collection.docs) {
+        await notificationRecord.doc(doc.id).delete();
+      }
+
+      state = MyState.success;
+      notifyListeners();
+    } catch (error) {
       state = MyState.error;
       notifyListeners();
     }

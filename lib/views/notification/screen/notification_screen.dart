@@ -2,6 +2,7 @@ import 'package:damodi_daily_mood_diary/services/notification_service.dart';
 import 'package:damodi_daily_mood_diary/utils/extensions/date_extension.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
+import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
 import 'package:damodi_daily_mood_diary/views/notification/provider/notification_provider.dart';
 import 'package:damodi_daily_mood_diary/views/notification/widgets/notification_card.dart';
@@ -49,15 +50,173 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () async {
-                          await provider.addNotification();
-                        },
-                        // onTap: () => provider.getMoodByDate(),
-                        child: const Icon(
-                          Icons.notifications,
-                          color: ThemeColor.primary,
-                        ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    contentPadding: const EdgeInsets.all(
+                                        Spacing.spacing * 3),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          CustomRadius.defaultRadius),
+                                    ),
+                                    content: Consumer<NotificationProvider>(
+                                      builder: (context, provider, _) {
+                                        if (provider.state == MyState.loading) {
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const [
+                                              Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            ],
+                                          );
+                                        } else {
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Column(
+                                                children: [
+                                                  const SizedBox(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: Icon(
+                                                      Icons.warning,
+                                                      size: 50,
+                                                      color: ThemeColor
+                                                          .warning_400,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                      height: Spacing.spacing),
+                                                  Text(
+                                                    "Delete Notification",
+                                                    style: GoogleFonts.poppins(
+                                                      textStyle:
+                                                          Theme.of(context)
+                                                              .textTheme
+                                                              .bodyLarge!
+                                                              .copyWith(
+                                                                color: ThemeColor
+                                                                    .neutral_600,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                      height: Spacing.spacing),
+                                                  Text(
+                                                    "Are you sure you want to delete all notifications?",
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.poppins(
+                                                      textStyle:
+                                                          Theme.of(context)
+                                                              .textTheme
+                                                              .bodyLarge!
+                                                              .copyWith(
+                                                                color: ThemeColor
+                                                                    .neutral_600,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                      height: Spacing.spacing),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      TextButton(
+                                                        child: const Text(
+                                                          "Cancel",
+                                                          style: TextStyle(
+                                                            color: ThemeColor
+                                                                .primary,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                      TextButton(
+                                                        child: const Text(
+                                                          "Delete",
+                                                          style: TextStyle(
+                                                            color: ThemeColor
+                                                                .error_400,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        onPressed: () async {
+                                                          await provider
+                                                              .deleteAllNotification();
+
+                                                          if (context.mounted) {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            provider
+                                                                .getNotificationByWeek();
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              const SnackBar(
+                                                                content: Text(
+                                                                    "Mood deleted successfully"),
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .green,
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: const Icon(
+                              Icons.delete,
+                              color: ThemeColor.error_400,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: Spacing.spacing,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await provider.addNotification();
+                            },
+                            // onTap: () => provider.getMoodByDate(),
+                            child: const Icon(
+                              Icons.notifications,
+                              color: ThemeColor.primary,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
                       )
                     ],
                   ),
