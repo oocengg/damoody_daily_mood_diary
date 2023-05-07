@@ -1,3 +1,4 @@
+import 'package:damodi_daily_mood_diary/services/notification_service.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
@@ -14,14 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // final HomeProvider _homeProvider = HomeProvider();
-
-  // // @override
-  // // void dispose() {
-  // //   super.dispose();
-  // //   _homeProvider.setSelectedIndex(context, 0);
-  // // }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(

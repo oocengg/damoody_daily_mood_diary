@@ -1,3 +1,4 @@
+import 'package:damodi_daily_mood_diary/services/notification_service.dart';
 import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
 import 'package:damodi_daily_mood_diary/views/auth/provider/login_provider.dart';
 import 'package:damodi_daily_mood_diary/views/auth/screens/login_screen.dart';
@@ -6,6 +7,7 @@ import 'package:damodi_daily_mood_diary/views/dashboard/screen/dashboard_screen.
 import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
 import 'package:damodi_daily_mood_diary/views/home/screen/home_screen.dart';
 import 'package:damodi_daily_mood_diary/views/meditation/provider/meditation_provider.dart';
+import 'package:damodi_daily_mood_diary/views/notification/provider/notification_provider.dart';
 import 'package:damodi_daily_mood_diary/views/profile/provider/profile_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/provider/record_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/screen/record_screen.dart';
@@ -17,6 +19,32 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().initializeNotifications();
+  NotificationService notificationService = NotificationService();
+  await notificationService.scheduleTodayNotification(
+      1,
+      'Good Morning! Have A Great Day.',
+      'Start your day with smile and fill your journal. Make a wish and pray for this day.');
+  await notificationService.scheduleTodayNotification(
+      2,
+      'It\'s midday! Have you lunch ?',
+      'Take a few moments to reflect on your day so far and jot down your current mood in your journal.');
+  await notificationService.scheduleTodayNotification(
+      3,
+      'Good Evening! How was your day ?',
+      'Before you wind down for the night, take some time to reflect on your day and capture your current mood in your journal.');
+  await notificationService.scheduleNextdayNotification(
+      4,
+      'Good Morning! Have A Great Day.',
+      'Start your day with smile and fill your journal. Make a wish and pray for this day.');
+  await notificationService.scheduleNextdayNotification(
+      5,
+      'It\'s midday! Have you lunch ?',
+      'Take a few moments to reflect on your day so far and jot down your current mood in your journal.');
+  await notificationService.scheduleNextdayNotification(
+      6,
+      'Good Evening! How was your day ?',
+      'Before you wind down for the night, take some time to reflect on your day and capture your current mood in your journal.');
   await Firebase.initializeApp();
 
   runApp(const MyApp());
@@ -46,6 +74,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => RecordProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationProvider(),
         ),
       ],
       child: MaterialApp(
