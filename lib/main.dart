@@ -21,30 +21,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().initializeNotifications();
   NotificationService notificationService = NotificationService();
-  await notificationService.scheduleTodayNotification(
-      1,
-      'Good Morning! Have A Great Day.',
-      'Start your day with smile and fill your journal. Make a wish and pray for this day.');
-  await notificationService.scheduleTodayNotification(
-      2,
-      'It\'s midday! Have you lunch ?',
-      'Take a few moments to reflect on your day so far and jot down your current mood in your journal.');
-  await notificationService.scheduleTodayNotification(
-      3,
-      'Good Evening! How was your day ?',
-      'Before you wind down for the night, take some time to reflect on your day and capture your current mood in your journal.');
-  await notificationService.scheduleNextdayNotification(
-      4,
-      'Good Morning! Have A Great Day.',
-      'Start your day with smile and fill your journal. Make a wish and pray for this day.');
-  await notificationService.scheduleNextdayNotification(
-      5,
-      'It\'s midday! Have you lunch ?',
-      'Take a few moments to reflect on your day so far and jot down your current mood in your journal.');
-  await notificationService.scheduleNextdayNotification(
-      6,
-      'Good Evening! How was your day ?',
-      'Before you wind down for the night, take some time to reflect on your day and capture your current mood in your journal.');
+  await notificationService.scheduleTodayNotification();
+  await notificationService.scheduleNextdayNotification();
   await Firebase.initializeApp();
 
   runApp(const MyApp());

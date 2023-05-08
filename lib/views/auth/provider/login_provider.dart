@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/widgets/custom_alert.dart';
-import 'package:damodi_daily_mood_diary/views/dashboard/provider/dashboard_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
 
 class LoginProvider extends ChangeNotifier {
   MyState state = MyState.none;

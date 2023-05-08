@@ -3,7 +3,6 @@ import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/widgets/custom_text_button.dart';
-import 'package:damodi_daily_mood_diary/utils/widgets/custom_text_field.dart';
 import 'package:damodi_daily_mood_diary/views/auth/provider/login_provider.dart';
 import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LoginProvider>(context, listen: false);
     return Stack(
       children: [
         Scaffold(

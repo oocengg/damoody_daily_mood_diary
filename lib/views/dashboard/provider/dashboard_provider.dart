@@ -22,6 +22,8 @@ class DashboardProvider extends ChangeNotifier {
     });
     getMoodByWeek();
     getHappyPercentage();
+    getLatestMood();
+    getSummaryLabel();
   }
 
   List<MoodModel> listMoodDashboard = [];
@@ -65,8 +67,6 @@ class DashboardProvider extends ChangeNotifier {
           (curr, next) => curr.createdAt.isAfter(next.createdAt) ? curr : next);
 
       indexLatestMood = listMoodDashboard.indexOf(latestMood);
-
-      print(indexLatestMood);
       return latestMood;
     }
   }
@@ -81,12 +81,14 @@ class DashboardProvider extends ChangeNotifier {
       // final now = DateTime(2023, 4, 26);
       final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
       final endOfWeek = startOfWeek.add(const Duration(days: 6));
+      final startDateOfWeek =
+          DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
 
       final querySnapshot = await moodRecord
           .where('user_id', isEqualTo: user!.uid)
           .where(
             'created_at',
-            isGreaterThanOrEqualTo: startOfWeek,
+            isGreaterThanOrEqualTo: startDateOfWeek,
           )
           .where(
             'created_at',

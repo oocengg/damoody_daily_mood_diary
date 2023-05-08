@@ -1,5 +1,3 @@
-import 'package:damodi_daily_mood_diary/services/notification_service.dart';
-import 'package:damodi_daily_mood_diary/utils/extensions/date_extension.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
@@ -72,7 +70,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                             children: const [
                                               Center(
                                                 child:
-                                                    CircularProgressIndicator(),
+                                                    CircularProgressIndicator(
+                                                  color: ThemeColor.primary,
+                                                ),
                                               ),
                                             ],
                                           );
@@ -238,7 +238,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         const SizedBox(height: Spacing.spacing * 3),
                         if (provider.state == MyState.loading) ...[
                           const Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(
+                              color: ThemeColor.primary,
+                            ),
                           ),
                         ] else if (provider.state == MyState.success &&
                             provider.listTodayNotification.isNotEmpty) ...[
@@ -292,7 +294,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         const SizedBox(height: Spacing.spacing * 3),
                         if (provider.state == MyState.loading) ...[
                           const Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(
+                              color: ThemeColor.primary,
+                            ),
                           ),
                         ] else if (provider.state == MyState.success &&
                             provider.listOlderNotification.isNotEmpty) ...[
@@ -306,7 +310,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 children: [
                                   NotificationCard(
                                     index: index,
-                                    day: true,
+                                    day: false,
                                   ),
                                   const SizedBox(
                                     height: Spacing.spacing,

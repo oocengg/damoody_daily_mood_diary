@@ -1,4 +1,3 @@
-import 'package:damodi_daily_mood_diary/services/notification_service.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
@@ -20,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<HomeProvider>(
       builder: (context, provider, child) {
         return Scaffold(
-          body: SafeArea(child: provider.pages[provider.selectedIndex]),
+          body: provider.pages[provider.selectedIndex],
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               boxShadow: [

@@ -30,7 +30,7 @@ class _CustomAlertState extends State<CustomAlert> {
     super.initState();
 
     // Set the timer to hide the alert after 3 seconds
-    Timer(Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 3), () {
       setState(() {
         _visible = false;
       });
@@ -61,10 +61,10 @@ class _CustomAlertState extends State<CustomAlert> {
                 color: Colors.white,
                 size: 30.0,
               ),
-              SizedBox(width: 10.0),
+              const SizedBox(width: 10.0),
               Text(
                 widget.title,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,

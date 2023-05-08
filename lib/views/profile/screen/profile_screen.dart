@@ -1,4 +1,3 @@
-import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
 import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';

@@ -6,7 +6,6 @@ import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/screen/detail_mood_dashboard_screen.dart';
-import 'package:damodi_daily_mood_diary/views/record/screen/detail_mood_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -51,7 +50,7 @@ class RecentMoodSection extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => DetailMoodDashboard(
-                          index: this.index,
+                          index: index,
                         )),
               );
             },

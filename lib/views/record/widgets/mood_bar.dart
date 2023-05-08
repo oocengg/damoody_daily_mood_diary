@@ -54,7 +54,7 @@ class MoodBar extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => DetailMood(
-                          index: this.index,
+                          index: index,
                         )),
               );
             },
@@ -75,7 +75,9 @@ class MoodBar extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: const [
                               Center(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  color: ThemeColor.primary,
+                                ),
                               ),
                             ],
                           );

@@ -19,10 +19,8 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<NotificationProvider>(context, listen: false);
-    final notif = provider.listTodayNotification[index];
-    final olderNotif = provider.listTodayNotification[index];
-
     if (day == true) {
+      final notif = provider.listTodayNotification[index];
       return InkWell(
         onTap: () async {
           await provider.updateNotification(notif);
@@ -96,9 +94,10 @@ class NotificationCard extends StatelessWidget {
         ),
       );
     } else {
+      final olderNotif = provider.listOlderNotification[index];
       return InkWell(
         onTap: () async {
-          await provider.updateNotification(notif);
+          await provider.updateNotification(olderNotif);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,13 +152,19 @@ class NotificationCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    Text(
+                      olderNotif.createdAt.toHumanDateShort(),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: ThemeColor.neutral_400,
+                          ),
+                    ),
                   ],
                 ),
               ),
             ),
             const SizedBox(width: Spacing.spacing * 2),
             Text(
-              notif.createdAt.toHumanTime(),
+              olderNotif.createdAt.toHumanTime(),
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: ThemeColor.neutral_900,
                     fontWeight: FontWeight.w500,

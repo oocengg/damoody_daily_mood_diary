@@ -3,7 +3,6 @@ import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 class TextSummary extends StatelessWidget {

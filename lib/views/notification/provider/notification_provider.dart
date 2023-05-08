@@ -25,7 +25,7 @@ class NotificationProvider extends ChangeNotifier {
       this.user = user;
       notifyListeners();
     });
-    getNotificationByWeek();
+    // getNotificationByWeek();
   }
 
   Future<void> addNotification() async {
@@ -152,6 +152,28 @@ class NotificationProvider extends ChangeNotifier {
       for (final doc in collection.docs) {
         await notificationRecord.doc(doc.id).delete();
       }
+
+      state = MyState.success;
+      notifyListeners();
+    } catch (error) {
+      state = MyState.error;
+      notifyListeners();
+    }
+  }
+
+  Future<void> addScheduleNotification(String title, String description) async {
+    state = MyState.loading;
+    notifyListeners();
+    try {
+      await notificationRecord.add({
+        'title': title,
+        'description': description,
+        'created_at': DateTime.now(),
+        'is_active': true,
+        'user_id': user!.uid,
+      });
+
+      await getNotificationByWeek();
 
       state = MyState.success;
       notifyListeners();

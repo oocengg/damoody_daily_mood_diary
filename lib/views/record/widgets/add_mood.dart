@@ -3,7 +3,6 @@ import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
-import 'package:damodi_daily_mood_diary/utils/widgets/custom_alert.dart';
 import 'package:damodi_daily_mood_diary/views/record/provider/record_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/widgets/add_description_mood.dart';
 import 'package:damodi_daily_mood_diary/views/record/widgets/mood_emoji.dart';

@@ -1,7 +1,5 @@
-import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
 import 'package:damodi_daily_mood_diary/utils/extensions/date_extension.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
-import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
@@ -185,7 +183,9 @@ class RecordScreen extends StatelessWidget {
                         const SizedBox(height: Spacing.spacing),
                         if (provider.state == MyState.loading) ...[
                           const Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(
+                              color: ThemeColor.primary,
+                            ),
                           ),
                         ] else if (provider.state == MyState.success &&
                             provider.listMood.isNotEmpty) ...[

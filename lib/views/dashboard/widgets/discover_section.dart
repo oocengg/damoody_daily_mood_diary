@@ -1,12 +1,9 @@
 import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
-import 'package:damodi_daily_mood_diary/utils/constants/routes_const.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
-import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 
 class Discover extends StatelessWidget {
   const Discover({super.key});

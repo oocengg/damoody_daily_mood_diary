@@ -1,4 +1,4 @@
-import 'package:cron/cron.dart';
+// import 'package:cron/cron.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -8,7 +8,7 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
 
   final AndroidInitializationSettings _androidInitializationSettings =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+      const AndroidInitializationSettings('@mipmap/ic_launcher');
 
   Future<void> initializeNotifications() async {
     InitializationSettings initializationSettings =
@@ -40,8 +40,7 @@ class NotificationService {
 
   // Schedule sesuai dengan time yang dimasukkan
 
-  Future<void> scheduleTodayNotification(
-      int id, String title, String desc) async {
+  Future<void> scheduleTodayNotification() async {
     var dateTimeMorning = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 7, 0, 0);
     var dateTimeAfternoon = DateTime(DateTime.now().year, DateTime.now().month,
@@ -51,13 +50,13 @@ class NotificationService {
     tz.initializeTimeZones();
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      desc,
+      1,
+      'Good Morning! Have A Great Day.',
+      'Start your day with smile and fill your journal. Make a wish and pray for this day.',
       tz.TZDateTime.from(dateTimeMorning, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          id.toString(),
+          1.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
@@ -70,13 +69,13 @@ class NotificationService {
     );
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      desc,
+      2,
+      'It\'s midday! Have you lunch ?',
+      'Take a few moments to reflect on your day so far and jot down your current mood in your journal.',
       tz.TZDateTime.from(dateTimeAfternoon, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          id.toString(),
+          2.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
@@ -89,13 +88,13 @@ class NotificationService {
     );
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      desc,
+      3,
+      'Good Evening! How was your day ?',
+      'Before you wind down for the night, take some time to reflect on your day and capture your current mood in your journal.',
       tz.TZDateTime.from(dateTimeEvening, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          id.toString(),
+          3.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
@@ -106,10 +105,52 @@ class NotificationService {
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
+
+    // Test
+
+    // var testDateTimeMorning = DateTime(DateTime.now().year,
+    //     DateTime.now().month, DateTime.now().day, 9, 52, 0);
+    // var test2DateTimeMorning = DateTime(DateTime.now().year,
+    //     DateTime.now().month, DateTime.now().day, 10, 0, 0);
+    // await _flutterLocalNotificationsPlugin.zonedSchedule(
+    //   9,
+    //   'Test',
+    //   'Test 1 Desc',
+    //   tz.TZDateTime.from(testDateTimeMorning, tz.local),
+    //   NotificationDetails(
+    //     android: AndroidNotificationDetails(
+    //       9.toString(),
+    //       'Mood Record',
+    //       importance: Importance.max,
+    //       priority: Priority.max,
+    //       icon: '@mipmap/ic_launcher',
+    //     ),
+    //   ),
+    //   uiLocalNotificationDateInterpretation:
+    //       UILocalNotificationDateInterpretation.absoluteTime,
+    //   matchDateTimeComponents: DateTimeComponents.time,
+    // );
+    // await _flutterLocalNotificationsPlugin.zonedSchedule(
+    //   10,
+    //   'Test',
+    //   'Test 2 Desc',
+    //   tz.TZDateTime.from(test2DateTimeMorning, tz.local),
+    //   NotificationDetails(
+    //     android: AndroidNotificationDetails(
+    //       9.toString(),
+    //       'Mood Record',
+    //       importance: Importance.max,
+    //       priority: Priority.max,
+    //       icon: '@mipmap/ic_launcher',
+    //     ),
+    //   ),
+    //   uiLocalNotificationDateInterpretation:
+    //       UILocalNotificationDateInterpretation.absoluteTime,
+    //   matchDateTimeComponents: DateTimeComponents.time,
+    // );
   }
 
-  Future<void> scheduleNextdayNotification(
-      int id, String title, String desc) async {
+  Future<void> scheduleNextdayNotification() async {
     var dateTimeMorning = DateTime(DateTime.now().year, DateTime.now().month,
         DateTime.now().day + 1, 7, 0, 0);
     var dateTimeAfternoon = DateTime(DateTime.now().year, DateTime.now().month,
@@ -119,13 +160,13 @@ class NotificationService {
     tz.initializeTimeZones();
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      desc,
+      4,
+      'Good Morning! Have A Great Day.',
+      'Start your day with smile and fill your journal. Make a wish and pray for this day.',
       tz.TZDateTime.from(dateTimeMorning, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          id.toString(),
+          1.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
@@ -138,13 +179,13 @@ class NotificationService {
     );
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      desc,
+      5,
+      'It\'s midday! Have you lunch ?',
+      'Take a few moments to reflect on your day so far and jot down your current mood in your journal.',
       tz.TZDateTime.from(dateTimeAfternoon, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          id.toString(),
+          2.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
@@ -157,13 +198,13 @@ class NotificationService {
     );
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      desc,
+      6,
+      'Good Evening! How was your day ?',
+      'Before you wind down for the night, take some time to reflect on your day and capture your current mood in your journal.',
       tz.TZDateTime.from(dateTimeEvening, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          id.toString(),
+          3.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
@@ -175,63 +216,6 @@ class NotificationService {
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }
-
-  // Future<void> scheduleDailyNotifications(
-  //     int id, String title, String body) async {
-  //   var androidDetails = AndroidNotificationDetails(
-  //     id.toString(),
-  //     'Mood Record',
-  //     importance: Importance.max,
-  //     priority: Priority.max,
-  //     icon: '@mipmap/ic_launcher',
-  //   );
-  //   var platformDetails = NotificationDetails(android: androidDetails);
-
-  //   // Jadwal notifikasi pada pukul 7 pagi
-  //   var morningTime = Time(7, 0, 0);
-  //   var morningTrigger =
-  //       DailyTrigger(hour: morningTime.hour, minute: morningTime.minute);
-  //   await _flutterLocalNotificationsPlugin.zonedSchedule(
-  //     id * 2, // Gunakan ID yang berbeda agar notifikasi tidak tertimpa
-  //     title,
-  //     body,
-  //     _nextInstanceOfTime(morningTime),
-  //     platformDetails,
-  //     uiLocalNotificationDateInterpretation:
-  //         UILocalNotificationDateInterpretation.absoluteTime,
-  //     payload: 'customData',
-  //     matchDateTimeComponents: DateTimeComponents.time,
-  //     recurrenceRule: RecurrenceRule.dailyAtTime(morningTrigger),
-  //   );
-
-  //   // Jadwal notifikasi pada pukul 9 malam
-  //   var eveningTime = Time(21, 0, 0);
-  //   var eveningTrigger =
-  //       DailyTrigger(hour: eveningTime.hour, minute: eveningTime.minute);
-  //   await _flutterLocalNotificationsPlugin.zonedSchedule(
-  //     id * 2 + 1, // Gunakan ID yang berbeda agar notifikasi tidak tertimpa
-  //     title,
-  //     body,
-  //     _nextInstanceOfTime(eveningTime),
-  //     platformDetails,
-  //     uiLocalNotificationDateInterpretation:
-  //         UILocalNotificationDateInterpretation.absoluteTime,
-  //     payload: 'customData',
-  //     matchDateTimeComponents: DateTimeComponents.time,
-  //     recurrenceRule: RecurrenceRule.dailyAtTime(eveningTrigger),
-  //   );
-  // }
-
-  // fungsi untuk menentukan waktu notifikasi berikutnya
-  // tz.TZDateTime _nextInstanceOfTime(Time time) {
-  //   final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-  //   tz.TZDateTime scheduledDate = tz.TZDateTime(
-  //       tz.local, now.year, now.month, now.day, time.hour, time.minute);
-  //   if (scheduledDate.isBefore(now)) {
-  //     scheduledDate = scheduledDate.add(const Duration(days: 1));
-  //   }
-  //   return scheduledDate;
-  // }
 
   // Schedule dengan Cron
 

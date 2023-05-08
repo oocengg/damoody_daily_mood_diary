@@ -24,7 +24,9 @@ class DetailMood extends StatelessWidget {
         child: Scaffold(
           backgroundColor: ThemeColor.background,
           body: Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: ThemeColor.primary,
+            ),
           ),
         ),
       );

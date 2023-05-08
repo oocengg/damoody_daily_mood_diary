@@ -41,7 +41,7 @@ class RecordProvider extends ChangeNotifier {
       this.user = user;
       notifyListeners();
     });
-    getMoodByDate();
+    // getMoodByDate();
   }
 
   void setMood(MoodState value) {
