@@ -9,6 +9,8 @@ import 'package:damodi_daily_mood_diary/views/home/screen/home_screen.dart';
 import 'package:damodi_daily_mood_diary/views/meditation/provider/meditation_provider.dart';
 import 'package:damodi_daily_mood_diary/views/notification/provider/notification_provider.dart';
 import 'package:damodi_daily_mood_diary/views/profile/provider/profile_provider.dart';
+import 'package:damodi_daily_mood_diary/views/profile/screen/about_screen.dart';
+import 'package:damodi_daily_mood_diary/views/profile/screen/faq_screen.dart';
 import 'package:damodi_daily_mood_diary/views/record/provider/record_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/screen/record_screen.dart';
 import 'package:damodi_daily_mood_diary/views/splash/screen/splash_screen.dart';
@@ -71,6 +73,8 @@ class MyApp extends StatelessWidget {
               const DashboardScreen(),
           Routes.recordPage: (BuildContext context) => const RecordScreen(),
           Routes.loginPage: (BuildContext context) => const LoginScreen(),
+          Routes.aboutPage: (BuildContext context) => const AboutScreen(),
+          Routes.faqPage: (BuildContext context) => const FaqScreen(),
         },
       ),
     );

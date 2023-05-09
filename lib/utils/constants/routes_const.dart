@@ -7,4 +7,6 @@ class Routes {
   static const String loginPage = '/login';
   static const String dashboardPage = '/dashboard';
   static const String recordPage = '/record';
+  static const String aboutPage = '/about';
+  static const String faqPage = '/faq';
 }
