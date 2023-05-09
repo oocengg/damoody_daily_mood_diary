@@ -222,31 +222,46 @@ class ProfileScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                 ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '10',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium!
-                                    .copyWith(
-                                      color: ThemeColor.primary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                              Text(
-                                'Cards',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                      color: ThemeColor.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                              ),
-                            ],
-                          ),
+                          Consumer<ProfileProvider>(
+                              builder: (context, provider, _) {
+                            if (provider.state == MyState.loading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (provider.state == MyState.success) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    provider.countMood.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium!
+                                        .copyWith(
+                                          color: ThemeColor.primary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  Text(
+                                    'Cards',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                          color: ThemeColor.black,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  ),
+                                ],
+                              );
+                            } else if (provider.state == MyState.error) {
+                              return const Center(
+                                child: Text('Oppss! Someting went wrong.'),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }),
                           Text(
                             'Damoody - Daily Mood Diary',
                             style:
@@ -260,19 +275,19 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: Spacing.spacing * 3),
                     GestureDetector(
-                      onTap: () {},
-                      child: menuItem('Help'),
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.faqPage);
+                      },
+                      child: menuItem('Frequently Ask Question (FAQ)'),
                     ),
                     const SizedBox(height: Spacing.spacing * 3),
                     GestureDetector(
-                      onTap: () {},
-                      child: menuItem('Privacy & Policy'),
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.aboutPage);
+                      },
+                      child: menuItem('About'),
                     ),
                     const SizedBox(height: Spacing.spacing * 3),
-                    GestureDetector(
-                      onTap: () {},
-                      child: menuItem('Term of Service'),
-                    ),
                   ],
                 ),
               )

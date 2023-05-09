@@ -3,6 +3,7 @@ import 'package:damodi_daily_mood_diary/views/dashboard/screen/dashboard_screen.
 import 'package:damodi_daily_mood_diary/views/meditation/screen/meditation_screen.dart';
 import 'package:damodi_daily_mood_diary/views/notification/provider/notification_provider.dart';
 import 'package:damodi_daily_mood_diary/views/notification/screen/notification_screen.dart';
+import 'package:damodi_daily_mood_diary/views/profile/provider/profile_provider.dart';
 import 'package:damodi_daily_mood_diary/views/profile/screen/profile_screen.dart';
 import 'package:damodi_daily_mood_diary/views/record/provider/record_provider.dart';
 import 'package:damodi_daily_mood_diary/views/record/screen/record_screen.dart';
@@ -37,6 +38,11 @@ class HomeProvider with ChangeNotifier {
     if (selectedIndex == 3) {
       Provider.of<NotificationProvider>(context, listen: false)
           .getNotificationByWeek();
+    }
+
+    if (selectedIndex == 4) {
+      Provider.of<ProfileProvider>(context, listen: false)
+          .getDataCountByUserId();
     }
 
     notifyListeners();
