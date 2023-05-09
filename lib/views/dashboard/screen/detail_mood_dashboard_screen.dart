@@ -44,29 +44,12 @@ class DetailMoodDashboard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          provider.getMoodByWeek();
-                        },
-                        icon: const Icon(CustomIcon.leftOpen),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditMoodScreen(
-                                      index: index,
-                                    )),
-                          );
-                        },
-                        icon: const Icon(Icons.edit_outlined),
-                      ),
-                    ],
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      // provider.getMoodByWeek();
+                    },
+                    icon: const Icon(CustomIcon.leftOpen),
                   ),
                   Text(
                     mood.title,
