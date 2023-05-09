@@ -166,7 +166,7 @@ class NotificationService {
       tz.TZDateTime.from(dateTimeMorning, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          1.toString(),
+          4.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
@@ -185,7 +185,7 @@ class NotificationService {
       tz.TZDateTime.from(dateTimeAfternoon, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          2.toString(),
+          5.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
@@ -204,7 +204,7 @@ class NotificationService {
       tz.TZDateTime.from(dateTimeEvening, tz.local),
       NotificationDetails(
         android: AndroidNotificationDetails(
-          3.toString(),
+          6.toString(),
           'Mood Record',
           importance: Importance.max,
           priority: Priority.max,
