@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           textTheme: GoogleFonts.poppinsTextTheme(),
         ),
+        debugShowCheckedModeBanner: false,
         initialRoute: Routes.splash,
         routes: {
           Routes.splash: (BuildContext context) => const SplashScreen(),
