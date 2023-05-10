@@ -18,4 +18,6 @@ class AssetConst {
   static const String rainSq = 'assets/images/rainSq.jpg';
   static const String waveSq = 'assets/images/waveSq.jpg';
   static const String forestMp3 = 'assets/music/forest.mp3';
+  static const String rainMp3 = 'assets/music/rain.mp3';
+  static const String wavesMp3 = 'assets/music/waves.mp3';
 }
