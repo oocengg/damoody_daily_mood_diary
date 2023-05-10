@@ -5,7 +5,6 @@ import 'package:damodi_daily_mood_diary/utils/themes/custom_icon.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
 import 'package:damodi_daily_mood_diary/views/dashboard/provider/dashboard_provider.dart';
-import 'package:damodi_daily_mood_diary/views/record/screen/edit_mood_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';

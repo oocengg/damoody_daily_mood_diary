@@ -6,7 +6,10 @@ import 'package:damodi_daily_mood_diary/views/dashboard/provider/dashboard_provi
 import 'package:damodi_daily_mood_diary/views/dashboard/screen/dashboard_screen.dart';
 import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
 import 'package:damodi_daily_mood_diary/views/home/screen/home_screen.dart';
+import 'package:damodi_daily_mood_diary/views/meditation/provider/forest_provider.dart';
 import 'package:damodi_daily_mood_diary/views/meditation/provider/meditation_provider.dart';
+import 'package:damodi_daily_mood_diary/views/meditation/provider/rain_provider.dart';
+import 'package:damodi_daily_mood_diary/views/meditation/provider/wave_provider.dart';
 import 'package:damodi_daily_mood_diary/views/notification/provider/notification_provider.dart';
 import 'package:damodi_daily_mood_diary/views/profile/provider/profile_provider.dart';
 import 'package:damodi_daily_mood_diary/views/profile/screen/about_screen.dart';
@@ -57,6 +60,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => NotificationProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ForestProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RainProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => WaveProvider(),
         ),
       ],
       child: MaterialApp(

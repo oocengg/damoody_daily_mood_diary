@@ -276,16 +276,16 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: Spacing.spacing * 3),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.faqPage);
+                        Navigator.pushNamed(context, Routes.aboutPage);
                       },
-                      child: menuItem('Frequently Ask Question (FAQ)'),
+                      child: menuItem('About'),
                     ),
                     const SizedBox(height: Spacing.spacing * 3),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.aboutPage);
+                        Navigator.pushNamed(context, Routes.faqPage);
                       },
-                      child: menuItem('About'),
+                      child: menuItem('Frequently Ask Question (FAQ)'),
                     ),
                     const SizedBox(height: Spacing.spacing * 3),
                   ],
