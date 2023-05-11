@@ -173,7 +173,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                                 .showSnackBar(
                                                               const SnackBar(
                                                                 content: Text(
-                                                                    "Mood deleted successfully"),
+                                                                    "Notifications deleted successfully"),
                                                                 backgroundColor:
                                                                     Colors
                                                                         .green,
@@ -270,7 +270,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ] else if (provider.listTodayNotification.isEmpty &&
                             provider.state == MyState.success) ...[
                           const Center(
-                            child: Text('Mood record is empty.'),
+                            child: Text('Today\'s Notification is empty.'),
                           ),
                         ],
                         const SizedBox(height: Spacing.spacing * 3),
@@ -326,7 +326,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ] else if (provider.listOlderNotification.isEmpty &&
                             provider.state == MyState.success) ...[
                           const Center(
-                            child: Text('Mood record is empty.'),
+                            child: Text('Older Notification is empty.'),
                           ),
                         ],
                         const SizedBox(height: Spacing.spacing * 3),

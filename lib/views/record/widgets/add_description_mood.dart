@@ -289,10 +289,13 @@ class _AddDescriptionMoodState extends State<AddDescriptionMood> {
                                               width: 1.0,
                                               color: ThemeColor.neutral_200),
                                         ),
-                                        child: Center(
-                                            child: Image.file(
-                                                File(provider.image!.path),
-                                                fit: BoxFit.cover)));
+                                        child: provider.image != null
+                                            ? Center(
+                                                child: Image.file(
+                                                    File(provider.image!.path),
+                                                    fit: BoxFit.cover))
+                                            : const Center(
+                                                child: Text('Add Image ...')));
                                   } else if (provider.state ==
                                           MyState.loading &&
                                       provider.selectedImage ==

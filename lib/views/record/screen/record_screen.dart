@@ -59,8 +59,7 @@ class RecordScreen extends StatelessWidget {
                 Consumer<RecordProvider>(builder: (context, provider, _) {
                   return TableCalendar(
                     focusedDay: provider.selectedDate,
-                    firstDay: DateTime.utc(
-                        DateTime.now().year, DateTime.now().month, 1),
+                    firstDay: DateTime.utc(DateTime.now().year, 1, 1),
                     lastDay: DateTime.utc(
                         DateTime.now().year, DateTime.now().month + 1, 0),
                     calendarFormat: CalendarFormat.week,

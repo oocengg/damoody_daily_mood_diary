@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:damodi_daily_mood_diary/models/notification_model.dart';
+import 'package:damodi_daily_mood_diary/services/firebase_service.dart';
 import 'package:damodi_daily_mood_diary/services/notification_service.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +14,8 @@ class NotificationProvider extends ChangeNotifier {
   String? description;
 
   User? user = FirebaseAuth.instance.currentUser;
+
+  FirebaseService recordService = FirebaseService();
 
   List<NotificationModel> listTodayNotification = [];
   List<NotificationModel> listOlderNotification = [];
@@ -48,13 +51,7 @@ class NotificationProvider extends ChangeNotifier {
     }
 
     try {
-      await notificationRecord.add({
-        'title': title,
-        'description': description,
-        'created_at': DateTime.now(),
-        'is_active': true,
-        'user_id': user!.uid,
-      });
+      await recordService.addNotification(user, title, description);
 
       // Call sendNotification function here
       await notificationsServices.sendNotification(title!, description!);
@@ -67,7 +64,7 @@ class NotificationProvider extends ChangeNotifier {
 
       state = MyState.success;
       notifyListeners();
-    } catch (error) {
+    } catch (e) {
       // Reset the form
       title = null;
       description = null;
@@ -83,41 +80,18 @@ class NotificationProvider extends ChangeNotifier {
 
     listTodayNotification.clear();
     listOlderNotification.clear();
+
     try {
-      final today = DateTime.now();
-      final tomorrow = today.add(const Duration(days: 1));
-      final startOfToday = DateTime(today.year, today.month, today.day);
-      final endOfTomorrow =
-          DateTime(tomorrow.year, tomorrow.month, tomorrow.day)
-              .subtract(const Duration(milliseconds: 1));
+      List<NotificationModel> listTodayNotificationFirebase =
+          await recordService.getTodayNotification(user);
 
-      final querySnapshotToday = await notificationRecord
-          .where('user_id', isEqualTo: user!.uid)
-          .where('created_at',
-              isGreaterThanOrEqualTo: Timestamp.fromDate(startOfToday))
-          .where('created_at',
-              isLessThanOrEqualTo: Timestamp.fromDate(endOfTomorrow))
-          .get();
-      for (var value in querySnapshotToday.docs) {
-        listTodayNotification.add(
-          NotificationModel.fromDocument(
-            value as DocumentSnapshot<Map<String, dynamic>>,
-          ),
-        );
-      }
+      listTodayNotification.addAll(listTodayNotificationFirebase);
 
-      final querySnapshotOlder = await notificationRecord
-          .where('user_id', isEqualTo: user!.uid)
-          .where('created_at', isLessThan: Timestamp.fromDate(startOfToday))
-          .get();
+      List<NotificationModel> listOlderNotificationFirebase =
+          await recordService.getOlderNotification(user);
 
-      for (var value in querySnapshotOlder.docs) {
-        listOlderNotification.add(
-          NotificationModel.fromDocument(
-            value as DocumentSnapshot<Map<String, dynamic>>,
-          ),
-        );
-      }
+      listOlderNotification.addAll(listOlderNotificationFirebase);
+
       await Future.delayed(const Duration(seconds: 2));
 
       state = MyState.success;
@@ -130,9 +104,7 @@ class NotificationProvider extends ChangeNotifier {
 
   Future<void> updateNotification(NotificationModel notifEdit) async {
     try {
-      await notificationRecord.doc(notifEdit.id).update({
-        'is_active': false,
-      });
+      await recordService.updateNotification(notifEdit);
 
       await getNotificationByWeek();
     } catch (e) {
@@ -146,12 +118,7 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final collection =
-          await notificationRecord.where('user_id', isEqualTo: user!.uid).get();
-
-      for (final doc in collection.docs) {
-        await notificationRecord.doc(doc.id).delete();
-      }
+      await recordService.deleteAllNotification(user);
 
       state = MyState.success;
       notifyListeners();
@@ -161,6 +128,7 @@ class NotificationProvider extends ChangeNotifier {
     }
   }
 
+  // Next Step
   Future<void> addScheduleNotification(String title, String description) async {
     state = MyState.loading;
     notifyListeners();
