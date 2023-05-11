@@ -84,6 +84,8 @@ class DashboardProvider extends ChangeNotifier {
 
       listMoodDashboard.addAll(listMoodDashboardFirebase);
 
+      indexLatestMood = listMoodDashboard.length - 1;
+
       await Future.delayed(const Duration(seconds: 2));
 
       state = MyState.success;

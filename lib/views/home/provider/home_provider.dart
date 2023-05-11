@@ -37,9 +37,9 @@ class HomeProvider with ChangeNotifier {
     }
 
     if (selectedIndex == 1) {
-      Provider.of<RecordProvider>(context, listen: false).getMoodByDate();
       Provider.of<RecordProvider>(context, listen: false).selectedDate =
           DateTime.now();
+      Provider.of<RecordProvider>(context, listen: false).getMoodByDate();
       Provider.of<ForestProvider>(context, listen: false).stopPlayer();
       Provider.of<RainProvider>(context, listen: false).stopPlayer();
       Provider.of<WaveProvider>(context, listen: false).stopPlayer();
