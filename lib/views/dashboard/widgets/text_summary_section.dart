@@ -1,20 +1,12 @@
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
+import 'package:damodi_daily_mood_diary/views/dashboard/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
 class TextSummary extends StatelessWidget {
-  final String title, content, date;
-  final double chartValue;
-
-  const TextSummary({
-    Key? key,
-    required this.title,
-    required this.content,
-    required this.date,
-    required this.chartValue,
-  }) : super(key: key);
+  const TextSummary({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,24 +39,28 @@ class TextSummary extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'You\'re Happy!',
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: ThemeColor.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              Text(
-                'Keep it up!',
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: ThemeColor.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-              ),
-            ],
+          Consumer<DashboardProvider>(
+            builder: (context, provider, _) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    provider.getSummaryLabel(),
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: ThemeColor.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  Text(
+                    provider.getSummaryText(),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: ThemeColor.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                ],
+              );
+            },
           ),
           Text(
             'Damoody',

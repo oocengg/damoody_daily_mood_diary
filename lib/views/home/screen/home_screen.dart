@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<HomeProvider>(
       builder: (context, provider, child) {
         return Scaffold(
-          body: SafeArea(child: provider.pages[provider.selectedIndex]),
+          body: provider.pages[provider.selectedIndex],
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               boxShadow: [
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   text: 'Profile',
                 ),
               ],
-              onTabChange: (index) => provider.setSelectedIndex(index),
+              onTabChange: (index) => provider.setSelectedIndex(context, index),
             ),
           ),
         );

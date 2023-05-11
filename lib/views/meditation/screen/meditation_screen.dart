@@ -31,14 +31,14 @@ class MeditationScreen extends StatelessWidget {
               bottomNavigationBar: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: Spacing.spacing,
-                  vertical: Spacing.spacing + 5,
+                  vertical: Spacing.spacing,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
                       onTap: () {
-                        provider.setSelectedIndex(0);
+                        provider.setSelectedIndex(context, 0);
                       },
                       child: Container(
                         width: 100,
@@ -70,7 +70,7 @@ class MeditationScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        provider.setSelectedIndex(1);
+                        provider.setSelectedIndex(context, 1);
                       },
                       child: Container(
                         width: 100,
@@ -102,7 +102,7 @@ class MeditationScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        provider.setSelectedIndex(2);
+                        provider.setSelectedIndex(context, 2);
                       },
                       child: Container(
                         width: 100,
