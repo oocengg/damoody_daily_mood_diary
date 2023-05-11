@@ -8,6 +8,7 @@ import 'package:damodi_daily_mood_diary/views/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +18,37 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late SharedPreferences loginData;
+  late bool newUser;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLogin();
+  }
+
+  void checkLogin() async {
+    loginData = await SharedPreferences.getInstance();
+    newUser = loginData.getBool('login') ?? true;
+
+    if (newUser == false && context.mounted) {
+      await Provider.of<LoginProvider>(context, listen: false)
+          .loginWithGoogle();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Hello! Welcome back to Damoody!'),
+            backgroundColor: ThemeColor.success_400,
+          ),
+        );
+        Provider.of<HomeProvider>(context, listen: false)
+            .setSelectedIndex(context, 0);
+        Navigator.pushNamedAndRemoveUntil(
+            context, Routes.home, (route) => false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -118,6 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Provider.of<HomeProvider>(context,
                                                 listen: false)
                                             .setSelectedIndex(context, 0);
+                                        loginData.setBool('login', false);
                                         Navigator.pushNamedAndRemoveUntil(
                                             context,
                                             Routes.home,

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:damodi_daily_mood_diary/models/mood_model.dart';
 import 'package:damodi_daily_mood_diary/models/notification_model.dart';
-import 'package:damodi_daily_mood_diary/services/notification_service.dart';
 import 'package:damodi_daily_mood_diary/utils/state/image_state.dart';
 import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';

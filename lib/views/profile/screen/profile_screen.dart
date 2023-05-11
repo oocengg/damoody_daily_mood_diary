@@ -9,13 +9,32 @@ import 'package:damodi_daily_mood_diary/views/profile/provider/profile_provider.
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  late SharedPreferences loginData;
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    loginData = await SharedPreferences.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProfileProvider>(context, listen: false);
+
     Widget menuItem(String text) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,6 +116,7 @@ class ProfileScreen extends StatelessWidget {
 
                                 if (provider.state == MyState.success) {
                                   if (context.mounted) {
+                                    loginData.setBool('login', true);
                                     Navigator.pushNamedAndRemoveUntil(context,
                                         Routes.loginPage, (route) => false);
                                     homeProvider.setSelectedIndex(context, 0);
@@ -225,11 +245,7 @@ class ProfileScreen extends StatelessWidget {
                           Consumer<ProfileProvider>(
                               builder: (context, provider, _) {
                             if (provider.state == MyState.loading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else if (provider.state == MyState.success) {
-                              return Column(
+                              return Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
@@ -242,14 +258,46 @@ class ProfileScreen extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                   ),
+                                  const SizedBox(
+                                    width: Spacing.spacing,
+                                  ),
                                   Text(
                                     'Cards',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .titleSmall!
+                                        .headlineSmall!
                                         .copyWith(
-                                          color: ThemeColor.black,
-                                          fontWeight: FontWeight.w500,
+                                          color: ThemeColor.primary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ],
+                              );
+                            } else if (provider.state == MyState.success) {
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    provider.countMood.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium!
+                                        .copyWith(
+                                          color: ThemeColor.primary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  const SizedBox(
+                                    width: Spacing.spacing,
+                                  ),
+                                  Text(
+                                    'Cards',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall!
+                                        .copyWith(
+                                          color: ThemeColor.primary,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                   ),
                                 ],

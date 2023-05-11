@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
-import 'package:damodi_daily_mood_diary/utils/widgets/custom_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -39,32 +38,13 @@ class LoginProvider extends ChangeNotifier {
         state = MyState.success;
         notifyListeners();
       } else {
-        const CustomAlert(
-          title: 'This is an error message',
-          icon: Icons.error,
-          isError: true,
-        );
         state = MyState.error;
         notifyListeners();
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        const CustomAlert(
-          title: 'This is an error message',
-          icon: Icons.error,
-          isError: true,
-        );
-        state = MyState.error;
-        notifyListeners();
-      } else if (e.code == 'wrong-password') {
-        const CustomAlert(
-          title: 'This is an error message',
-          icon: Icons.error,
-          isError: true,
-        );
-        state = MyState.error;
-        notifyListeners();
-      }
+    } catch (e) {
+      state = MyState.error;
+      notifyListeners();
+      rethrow;
     }
   }
 }

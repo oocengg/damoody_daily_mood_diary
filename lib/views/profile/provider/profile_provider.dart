@@ -42,8 +42,8 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> getDataCountByUserId() async {
-    state = MyState.loading;
-    notifyListeners();
+    // state = MyState.loading;
+    // notifyListeners();
 
     try {
       final countMoodFirebase = await recordService.getDataCountByUserId(user);

@@ -68,8 +68,6 @@ class DashboardProvider extends ChangeNotifier {
     } else {
       MoodModel latestMood = listMoodDashboard.reduce(
           (curr, next) => curr.createdAt.isAfter(next.createdAt) ? curr : next);
-
-      indexLatestMood = listMoodDashboard.indexOf(latestMood);
       return latestMood;
     }
   }

@@ -1,7 +1,9 @@
+import 'package:damodi_daily_mood_diary/utils/constants/article_text_const.dart';
 import 'package:damodi_daily_mood_diary/utils/constants/assets_const.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/colors.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/radius.dart';
 import 'package:damodi_daily_mood_diary/utils/themes/spacing.dart';
+import 'package:damodi_daily_mood_diary/views/dashboard/screen/article_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,7 +29,10 @@ class Discover extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          // Navigator.pushNamed(context, Routes.recordPage);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ArticleScreen()),
+          );
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +64,7 @@ class Discover extends StatelessWidget {
                             ),
                             const SizedBox(height: Spacing.spacing),
                             Text(
-                              'An ulrimate guide. When we meditate, we inject far-reaching any reason to help someone so someone will love you someday. If you are lucky haha',
+                              ArticleText.p1,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
@@ -83,7 +88,7 @@ class Discover extends StatelessWidget {
                             CustomRadius.defaultRadius,
                           ),
                         ),
-                        child: Image.asset(AssetConst.loginImage),
+                        child: Image.asset(AssetConst.articleImage),
                       ),
                     ],
                   ),
