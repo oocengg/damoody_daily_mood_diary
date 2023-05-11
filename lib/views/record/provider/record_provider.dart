@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:damodi_daily_mood_diary/models/mood_model.dart';
+import 'package:damodi_daily_mood_diary/services/firebase_service.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/state/image_state.dart';
 import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
@@ -22,6 +23,8 @@ class RecordProvider extends ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
   ImageState selectedImage = ImageState.none;
 
+  FirebaseService recordService = FirebaseService();
+
   List<MoodModel> listMood = [];
 
   DateTime selectedDate = DateTime.now();
@@ -41,7 +44,6 @@ class RecordProvider extends ChangeNotifier {
       this.user = user;
       notifyListeners();
     });
-    // getMoodByDate();
   }
 
   void setMood(MoodState value) {
@@ -98,56 +100,12 @@ class RecordProvider extends ChangeNotifier {
       return;
     }
 
-    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = referenceRoot.child('images');
-
-    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
-
     try {
-      await referenceImageToUpload.putFile(File(image!.path));
-      imageUrl = await referenceImageToUpload.getDownloadURL();
+      await recordService.addMood(image, mood, description, moodLabel, title,
+          imageUrl, user, selectedImage);
 
-      try {
-        await moodRecord.add({
-          'mood': mood.toString().split('.').last,
-          'label': moodLabel,
-          'title': title,
-          'description': description,
-          'image_url': imageUrl,
-          'created_at': DateTime.now(),
-          'user_id': user!.uid,
-        });
+      await getMoodByDate();
 
-        // Reset the form
-        mood = MoodState.none;
-        moodLabel = 'Select Your Mood';
-        title = null;
-        description = null;
-        imageUrl = null;
-        image = null;
-
-        await Future.delayed(const Duration(seconds: 2));
-        // getMoodByDate();
-
-        state = MyState.success;
-        notifyListeners();
-        selectedImage = ImageState.none;
-      } catch (error) {
-        // Reset the form
-        mood = MoodState.none;
-        moodLabel = 'Select Your Mood';
-        title = null;
-        description = null;
-        imageUrl = null;
-        image = null;
-        selectedImage = ImageState.none;
-
-        state = MyState.error;
-        notifyListeners();
-      }
-    } catch (error) {
       // Reset the form
       mood = MoodState.none;
       moodLabel = 'Select Your Mood';
@@ -156,6 +114,19 @@ class RecordProvider extends ChangeNotifier {
       imageUrl = null;
       image = null;
 
+      await Future.delayed(const Duration(seconds: 2));
+
+      state = MyState.success;
+      notifyListeners();
+      selectedImage = ImageState.none;
+    } catch (e) {
+      // Reset the form
+      mood = MoodState.none;
+      moodLabel = 'Select Your Mood';
+      title = null;
+      description = null;
+      imageUrl = null;
+      image = null;
       selectedImage = ImageState.none;
 
       state = MyState.error;
@@ -168,45 +139,14 @@ class RecordProvider extends ChangeNotifier {
     notifyListeners();
 
     listMood.clear();
-    try {
-      final querySnapshot = await moodRecord
-          .where('user_id', isEqualTo: user!.uid)
-          .where(
-            'created_at',
-            isGreaterThanOrEqualTo: DateTime(
-              selectedDate.year,
-              selectedDate.month,
-              selectedDate.day,
-              0,
-              0,
-              0,
-              0,
-              0,
-            ),
-          )
-          .where(
-            'created_at',
-            isLessThanOrEqualTo: DateTime(
-              selectedDate.year,
-              selectedDate.month,
-              selectedDate.day,
-              23,
-              59,
-              59,
-              999,
-              999,
-            ),
-          )
-          .get();
-      for (var value in querySnapshot.docs) {
-        listMood.add(
-          MoodModel.fromDocument(
-            value as DocumentSnapshot<Map<String, dynamic>>,
-          ),
-        );
-      }
 
-      await Future.delayed(const Duration(seconds: 2));
+    try {
+      List<MoodModel> listMoodFirebase =
+          await recordService.getMoodByDate(user, selectedDate);
+
+      listMood.addAll(listMoodFirebase);
+
+      await Future.delayed(const Duration(seconds: 1));
 
       state = MyState.success;
       notifyListeners();
@@ -221,12 +161,7 @@ class RecordProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // Delete the mood document from Firestore
-      await moodRecord.doc(mood.id).delete();
-
-      // Delete the image file from Storage
-      final storageRef = FirebaseStorage.instance.refFromURL(mood.imageUrl);
-      await storageRef.delete();
+      await recordService.deleteMood(mood);
 
       // Remove the mood from the list
       listMood.remove(mood);
@@ -235,7 +170,7 @@ class RecordProvider extends ChangeNotifier {
 
       state = MyState.success;
       notifyListeners();
-    } catch (error) {
+    } catch (e) {
       state = MyState.error;
       notifyListeners();
     }
@@ -270,13 +205,8 @@ class RecordProvider extends ChangeNotifier {
     }
 
     try {
-      await moodRecord.doc(moodEdit.id).update({
-        'mood': mood.toString().split('.').last,
-        'label': moodLabel,
-        'title': title,
-        'description': description,
-        'image_url': imageUrl,
-      });
+      await recordService.updateMood(
+          mood, description, moodLabel, title, imageUrl, moodEdit);
 
       // Reset the form
       mood = MoodState.none;

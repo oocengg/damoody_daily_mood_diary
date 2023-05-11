@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:damodi_daily_mood_diary/services/firebase_service.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ class ProfileProvider extends ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
 
   int countMood = 0;
+
+  FirebaseService recordService = FirebaseService();
 
   ProfileProvider() {
     FirebaseAuth.instance.authStateChanges().listen((user) {
@@ -43,10 +46,9 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final querySnapshot =
-          await moodRecord.where('user_id', isEqualTo: user!.uid).count().get();
+      final countMoodFirebase = await recordService.getDataCountByUserId(user);
 
-      countMood = querySnapshot.count.toInt();
+      countMood = countMoodFirebase;
       state = MyState.success;
       notifyListeners();
     } catch (e) {

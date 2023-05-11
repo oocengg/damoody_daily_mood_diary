@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:damodi_daily_mood_diary/models/api/quote_api.dart';
 import 'package:damodi_daily_mood_diary/models/mood_model.dart';
 import 'package:damodi_daily_mood_diary/models/quote_model.dart';
+import 'package:damodi_daily_mood_diary/services/firebase_service.dart';
 import 'package:damodi_daily_mood_diary/utils/state/finite_state.dart';
 import 'package:damodi_daily_mood_diary/utils/state/mood_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,6 +15,8 @@ class DashboardProvider extends ChangeNotifier {
   QuoteModel? quoteResponse;
   String errorMessage = '';
   int indexLatestMood = 0;
+
+  FirebaseService recordService = FirebaseService();
 
   DashboardProvider() {
     FirebaseAuth.instance.authStateChanges().listen((user) {
@@ -76,33 +79,13 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
 
     listMoodDashboard.clear();
-    try {
-      final now = DateTime.now();
-      // final now = DateTime(2023, 4, 26);
-      final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-      final endOfWeek = startOfWeek.add(const Duration(days: 6));
-      final startDateOfWeek =
-          DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
 
-      final querySnapshot = await moodRecord
-          .where('user_id', isEqualTo: user!.uid)
-          .where(
-            'created_at',
-            isGreaterThanOrEqualTo: startDateOfWeek,
-          )
-          .where(
-            'created_at',
-            isLessThanOrEqualTo:
-                endOfWeek.add(const Duration(days: 1, seconds: -1)),
-          )
-          .get();
-      for (var value in querySnapshot.docs) {
-        listMoodDashboard.add(
-          MoodModel.fromDocument(
-            value as DocumentSnapshot<Map<String, dynamic>>,
-          ),
-        );
-      }
+    try {
+      List<MoodModel> listMoodDashboardFirebase =
+          await recordService.getMoodByWeek(user);
+
+      listMoodDashboard.addAll(listMoodDashboardFirebase);
+
       await Future.delayed(const Duration(seconds: 2));
 
       state = MyState.success;
